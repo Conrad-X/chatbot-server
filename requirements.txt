@@ -2,3 +2,4 @@ fastapi
 openai
 pydantic
 uvicorn==0.12.3
+dotenv
