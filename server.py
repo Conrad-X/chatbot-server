@@ -5,9 +5,11 @@ from fastapi import FastAPI
 from openai import OpenAI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from transcribe import *
 
 #load_dotenv()
-key = os.getenv("OPENAI_API_KEY")
+# key = os.getenv("OPENAI_API_KEY")
+key = "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"
 client = OpenAI(api_key=key)
 
 app = FastAPI()
@@ -84,6 +86,11 @@ async def query_text(userPrompt: UserPromt):
     # The top message at index 0 will always be from index after the run job is completed. 
     response = messages[0].content[0].text.value
     return { "content": response, "run_id": run_id, "thread_id": THREAD_ID }
+
+@app.post("/transcribe/")
+async def transcribe_audio(audio: str):
+    print(audio.encode())
+    await transcribe(audio.encode())
 
 @app.get("/")
 def read_root():
