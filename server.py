@@ -15,6 +15,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:4200",
+    "https://openai-chatbot-interface-9ab52001491e.herokuapp.com/"
 ]
 
 app.add_middleware(
