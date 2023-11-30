@@ -1,12 +1,12 @@
 import time
 import os
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from fastapi import FastAPI
 from openai import OpenAI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-load_dotenv()
+#load_dotenv()
 key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=key)
 
