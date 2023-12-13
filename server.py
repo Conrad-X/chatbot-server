@@ -15,7 +15,7 @@ from pydub import AudioSegment
 
 #load_dotenv()
 key = os.getenv("OPENAI_API_KEY")
-# key = "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"
+# key = ""
 client = OpenAI(api_key=key)
 
 app = FastAPI()
