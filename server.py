@@ -1,15 +1,21 @@
 import time
 import os
 #from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, File
+from fastapi.responses import StreamingResponse
 from openai import OpenAI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from transcribe import *
+from processing import *
+from polly import *
+import time
+from typing import Annotated
+from pydub import AudioSegment
 
 #load_dotenv()
-# key = os.getenv("OPENAI_API_KEY")
-key = "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"
+key = os.getenv("OPENAI_API_KEY")
+# key = "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"
 client = OpenAI(api_key=key)
 
 app = FastAPI()
@@ -19,6 +25,7 @@ origins = [
     "http://localhost:4200",
     "https://openai-chatbot-interface-9ab52001491e.herokuapp.com"
 ]
+# origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -87,10 +94,23 @@ async def query_text(userPrompt: UserPromt):
     response = messages[0].content[0].text.value
     return { "content": response, "run_id": run_id, "thread_id": THREAD_ID }
 
-@app.post("/transcribe/")
-async def transcribe_audio(audio: str):
-    print(audio.encode())
-    await transcribe(audio.encode())
+@app.post("/processAudioStream/")
+async def process_audio(file: Annotated[bytes, File()]):
+    start_time = time.time()
+    user_text = await transcribe(file)
+    response = StreamingResponse(process_stream_user_response(client, user_text), media_type="application/octet-stream")
+    end_time = time.time()
+    print(f"Total Time: {end_time - start_time}s")
+    return response
+
+@app.post("/processText/")
+async def process_text(text: str):
+    print(text)
+    start_time = time.time()
+    response = StreamingResponse(process_stream_user_response(client, text), media_type="application/octet-stream")
+    end_time = time.time()
+    print(f"Total Time: {end_time - start_time}s")
+    return response
 
 @app.get("/")
 def read_root():

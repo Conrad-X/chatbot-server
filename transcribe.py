@@ -1,16 +1,12 @@
 import asyncio
 import time
-import nest_asyncio
-import pyaudio
-import keyboard
-import io
 from amazon_transcribe.client import TranscribeStreamingClient
 from amazon_transcribe.handlers import TranscriptResultStreamHandler
 from amazon_transcribe.model import TranscriptEvent
 from amazon_transcribe.utils import apply_realtime_delay
 
 # Sample Rate should be same as rate at which we are recording the audio otherwise transcribing won't work
-SAMPLE_RATE = 16000
+SAMPLE_RATE = 41000
 REGION = "us-east-1"
 
 class MyEventHandler(TranscriptResultStreamHandler):
@@ -22,6 +18,7 @@ class MyEventHandler(TranscriptResultStreamHandler):
         results = transcript_event.transcript.results
         for result in results:
             for alt in result.alternatives:
+                print("IN")
                 if result.is_partial == False:
                     self.last_transcript += alt.transcript + ' '
 
@@ -31,7 +28,6 @@ class MyEventHandler(TranscriptResultStreamHandler):
 
 async def basic_transcribe(audio_stream):
     # Setup up our client with our chosen AWS region
-
     client = TranscribeStreamingClient(region=REGION)
 
     # Start transcription to generate our async stream
@@ -49,6 +45,7 @@ async def basic_transcribe(audio_stream):
         await stream.input_stream.end_stream()
 
     start_time = time.time()
+    print("Transcribing started")
     # Instantiate our handler and start processing events
     handler = MyEventHandler(stream.output_stream)
     await asyncio.gather(write_chunks(), handler.handle_events())
@@ -57,37 +54,6 @@ async def basic_transcribe(audio_stream):
     print(handler.get_last_transcript())
     return handler.get_last_transcript()
 
-def record_audio(duration=5):
-    chunk = 1024
-    format = pyaudio.paInt16
-    channels = 1
-    rate = 16000
-
-    p = pyaudio.PyAudio()
-
-    stream = p.open(format=format,
-                    channels=channels,
-                    rate=rate,
-                    input=True,
-                    frames_per_buffer=chunk)
-
-    print("Recording...")
-
-    frames = []
-
-    for i in range(0, int(rate / chunk * duration)):
-        data = stream.read(chunk)
-        frames.append(data)
-
-    print("Finished recording.")
-
-    stream.stop_stream()
-    stream.close()
-    p.terminate()
-
-    return b''.join(frames)
-
-
 async def transcribe(audio):
-    text = await basic_transcribe(x)
-    print(text)
+    text = await basic_transcribe(audio)
+    return text
