@@ -23,7 +23,8 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:4200",
-    "https://openai-chatbot-interface-9ab52001491e.herokuapp.com"
+    "https://openai-chatbot-interface-9ab52001491e.herokuapp.com",
+    "https://voice-chat-bot-client-18687526ee9a.herokuapp.com/"
 ]
 # origins = ["*"]
 
