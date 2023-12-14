@@ -3,9 +3,6 @@ openai
 pydantic
 uvicorn==0.12.3
 asyncio
-time
 nest_asyncio
 pyaudio
-keyboard
-io
 amazon-transcribe
