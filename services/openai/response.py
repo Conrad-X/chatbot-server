@@ -1,8 +1,12 @@
 from openai import OpenAI
 import time
-from polly import *
+from services.aws.polly import *
+import os
 
-async def process_stream_user_response(client, user_response):
+key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=key)
+
+async def process_stream_user_response_using_gpt(user_response):
     system_prompt_template = "Given a user query, offer concise information about the user's query. \nIf there is any uncertainty, simply respond with 'Sorry,' and avoid providing unrelated information. \nDo not request additional details or clarifications."
 
     start_time = time.time()

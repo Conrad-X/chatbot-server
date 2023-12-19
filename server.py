@@ -1,14 +1,14 @@
 import time
 import os
 #from dotenv import load_dotenv
-from fastapi import FastAPI, File
+from fastapi import FastAPI, File, Request
 from fastapi.responses import StreamingResponse
 from openai import OpenAI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from transcribe import *
-from processing import *
-from polly import *
+from services.aws.transcribe import *
+from services.openai.response import *
+from services.aws.polly import *
 import time
 from typing import Annotated
 from pydub import AudioSegment
@@ -45,7 +45,6 @@ origins = [
     "https://voice-chat-bot-client-18687526ee9a.herokuapp.com"
 ]
 # Enable All External Links
-# origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -54,6 +53,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class UserText(BaseModel):
+    text: str
 
 class UserPromt(BaseModel):
     prompt: str
@@ -118,16 +120,15 @@ async def query_text(userPrompt: UserPromt):
 async def process_audio(file: Annotated[bytes, File()]):
     start_time = time.time()
     user_text = await transcribe(file)
-    response = StreamingResponse(process_stream_user_response(client, user_text), media_type="application/octet-stream")
+    response = StreamingResponse(process_stream_user_response_using_gpt(user_text), media_type="application/octet-stream")
     end_time = time.time()
     print(f"Total Time: {end_time - start_time}s")
     return response
 
-@app.post("/processText/",tags=["processText"])
-async def process_text(text: str):
-    print(text)
+@app.post("/processText/", tags=["processText"])
+async def process_text(userText: UserText):
     start_time = time.time()
-    response = StreamingResponse(process_stream_user_response(client, text), media_type="application/octet-stream")
+    response = StreamingResponse(process_stream_user_response_using_gpt(userText.text), media_type="application/octet-stream")
     end_time = time.time()
     print(f"Total Time: {end_time - start_time}s")
     return response
