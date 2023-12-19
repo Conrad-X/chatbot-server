@@ -74,7 +74,7 @@ def retrieve_message_list(thread_id):
     )
     return messages.data
 
-@app.post("/query/")
+@app.post("/queryAssistant/")
 async def query_text(userPrompt: UserPromt):
     create_message(userPrompt.prompt, THREAD_ID)
     run_id = run_thread(THREAD_ID, ASSISTANT_ID)

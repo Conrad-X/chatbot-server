@@ -38,12 +38,12 @@ file_1 = client.files.create(
 )
 
 file_2 = client.files.create(
-  file=open("files/employees-handbook.pdf", "rb"),
+  file=open("assets/files/employees-handbook.pdf", "rb"),
   purpose='assistants'
 )
 
 file_3 = client.files.create(
-  file=open("files/more-conrad-labs-policies.txt", "rb"),
+  file=open("assets/files/more-conrad-labs-policies.txt", "rb"),
   purpose='assistants'
 )
 
