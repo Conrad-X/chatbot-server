@@ -15,10 +15,28 @@ from pydub import AudioSegment
 
 #load_dotenv()
 key = os.getenv("OPENAI_API_KEY")
-# key = ""
 client = OpenAI(api_key=key)
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "queryAssistant",
+        "description": "Enables answering retrieval based queries",
+    },
+    {
+        "name": "processAudioStream",
+        "description": "Processes audio stream using AWS Stranscribe & OpenAI chat completion",
+        "externalDocs": {
+            "description": "Learn more about AWS Transcribe",
+            "url": "https://aws.amazon.com/transcribe/",
+        },
+    },
+        {
+        "name": "processText",
+        "description": "Processes plain text and respond with OpenAI chat completion",
+    },
+]
+
+app = FastAPI(openapi_tags=tags_metadata)
 
 origins = [
     "http://localhost",
@@ -26,6 +44,7 @@ origins = [
     "https://openai-chatbot-interface-9ab52001491e.herokuapp.com",
     "https://voice-chat-bot-client-18687526ee9a.herokuapp.com"
 ]
+# Enable All External Links
 # origins = ["*"]
 
 app.add_middleware(
@@ -74,7 +93,7 @@ def retrieve_message_list(thread_id):
     )
     return messages.data
 
-@app.post("/queryAssistant/")
+@app.post("/queryAssistant/", tags=["queryAssistant"])
 async def query_text(userPrompt: UserPromt):
     create_message(userPrompt.prompt, THREAD_ID)
     run_id = run_thread(THREAD_ID, ASSISTANT_ID)
@@ -95,7 +114,7 @@ async def query_text(userPrompt: UserPromt):
     response = messages[0].content[0].text.value
     return { "content": response, "run_id": run_id, "thread_id": THREAD_ID }
 
-@app.post("/processAudioStream/")
+@app.post("/processAudioStream/", tags=["processAudioStream"])
 async def process_audio(file: Annotated[bytes, File()]):
     start_time = time.time()
     user_text = await transcribe(file)
@@ -104,7 +123,7 @@ async def process_audio(file: Annotated[bytes, File()]):
     print(f"Total Time: {end_time - start_time}s")
     return response
 
-@app.post("/processText/")
+@app.post("/processText/",tags=["processText"])
 async def process_text(text: str):
     print(text)
     start_time = time.time()
