@@ -6,3 +6,4 @@ asyncio
 pydub
 boto3
 amazon-transcribe
+python-multipart
