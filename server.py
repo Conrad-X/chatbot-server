@@ -43,16 +43,15 @@ tags_metadata = [
     }
 ]
 
-app = FastAPI(openapi_tags=tags_metadata)
-
 origins = [
     "http://localhost",
     "http://localhost:4200",
     "https://openai-chatbot-interface-9ab52001491e.herokuapp.com",
-    "https://openai-chatbot-interface-9ab52001491e.herokuapp.com/"
     "https://voice-chat-bot-client-18687526ee9a.herokuapp.com"
-    "https://voice-chat-bot-client-18687526ee9a.herokuapp.com/"
 ]
+
+app = FastAPI(openapi_tags=tags_metadata)
+
 # Enable All External Links
 # origins = ["*"]
 
@@ -62,6 +61,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    max_age=4500,
 )
 
 redis_client = None
