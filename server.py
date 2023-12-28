@@ -186,7 +186,7 @@ async def query_text(userPrompt: UserPromt):
 
             start = time.time()
             status = None
-            while status != STATUS_COMPLETED or status != STATUS_COMPLETED:
+            while status != STATUS_COMPLETED or status != STATUS_FAILED:
                 status = retrieve_run_instances(THREAD_ID, run_id)
                 print(f"{status}\r", end="")
                 status = status  
