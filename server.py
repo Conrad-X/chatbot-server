@@ -177,25 +177,29 @@ async def query_text(userPrompt: UserPromt):
             redis_client.set(mac_address, THREAD_ID)
 
         print("Creating message...")
-
-        create_message(userPrompt.prompt, THREAD_ID)
-        run_id = run_thread(THREAD_ID, ASSISTANT_ID)
-        print(f"Your new run id is - {run_id}")
-
-        start = time.time()
-        status = None
-        while status != STATUS_COMPLETED:
-            status = retrieve_run_instances(THREAD_ID, run_id)
-            print(f"{status}\r", end="")
-            status = status  
         
-        end = time.time()
-        print(f"Response Generation - {end - start}")
-        messages = retrieve_message_list(THREAD_ID)
+        try:
+            create_message(userPrompt.prompt, THREAD_ID)
+            run_id = run_thread(THREAD_ID, ASSISTANT_ID)
+            print(f"Your new run id is - {run_id}")
 
-        # The top message at index 0 will always be from index after the run job is completed. 
-        response = messages[0].content[0].text.value
-        return { "content": response, "run_id": run_id, "thread_id": THREAD_ID }
+            start = time.time()
+            status = None
+            while status != STATUS_COMPLETED:
+                status = retrieve_run_instances(THREAD_ID, run_id)
+                print(f"{status}\r", end="")
+                status = status  
+            
+            end = time.time()
+            print(f"Response Generation - {end - start}")
+            messages = retrieve_message_list(THREAD_ID)
+
+            # The top message at index 0 will always be from index after the run job is completed. 
+            response = messages[0].content[0].text.value
+        except Exception as e:
+            return { "content": e, "statusCode": 500}
+        
+        return { "content": response, "run_id": run_id, "thread_id": THREAD_ID, "statusCode": 200 }
     else:
         return {'statusCode': 500}
 
