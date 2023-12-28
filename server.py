@@ -68,6 +68,7 @@ class UserPromt(BaseModel):
     prompt: str
 
 STATUS_COMPLETED = "completed"
+STATUS_FAILED = "failed"
 THREAD_ID = os.getenv("THREAD_ID")
 
 REDIS_ENDPOINT = os.getenv("REDIS_ENDPOINT")
@@ -185,17 +186,19 @@ async def query_text(userPrompt: UserPromt):
 
             start = time.time()
             status = None
-            while status != STATUS_COMPLETED:
+            while status != STATUS_COMPLETED or status != STATUS_COMPLETED:
                 status = retrieve_run_instances(THREAD_ID, run_id)
                 print(f"{status}\r", end="")
                 status = status  
             
-            end = time.time()
-            print(f"Response Generation - {end - start}")
-            messages = retrieve_message_list(THREAD_ID)
-
-            # The top message at index 0 will always be from index after the run job is completed. 
-            response = messages[0].content[0].text.value
+            if status == STATUS_COMPLETED: 
+                end = time.time()
+                print(f"Response Generation - {end - start}")
+                messages = retrieve_message_list(THREAD_ID)
+                # The top message at index 0 will always be from index after the run job is completed. 
+                response = messages[0].content[0].text.value
+            elif status == STATUS_FAILED:
+                return { "content": "The message status failed. Please check your OpenAI account & Billing Status.", "statusCode": 500}
         except Exception as e:
             return { "content": e, "statusCode": 500}
         
