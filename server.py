@@ -18,7 +18,6 @@ import uuid
 # from dotenv import load_dotenv
 # load_dotenv()
 
-
 key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=key)
 
@@ -45,12 +44,7 @@ tags_metadata = [
     }
 ]
 
-origins = [
-    "http://localhost",
-    "http://localhost:4200",
-    "https://openai-chatbot-interface-9ab52001491e.herokuapp.com",
-    "https://voice-chat-bot-client-18687526ee9a.herokuapp.com"
-]
+origins = ["http://localhost", "http://localhost:4200","https://openai-chatbot-interface-9ab52001491e.herokuapp.com","https://voice-chat-bot-client-18687526ee9a.herokuapp.com"]
 
 app = FastAPI(openapi_tags=tags_metadata)
 
