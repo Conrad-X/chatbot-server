@@ -64,6 +64,7 @@ redis_client = None
 
 class UserPromt(BaseModel):
     prompt: str
+    address: str
 
 STATUS_COMPLETED = "completed"
 STATUS_FAILED = "failed"
@@ -159,7 +160,8 @@ async def query_text(userPrompt: UserPromt):
     if redis_client.ping():
         print("Successfully connected with Redis!")
 
-        mac_address = get_mac_address()
+        mac_address = userPrompt.macAddress
+        # For testing purposes - get_mac_address()
         print(f"The Mac Address value is {mac_address}")
 
         try:
