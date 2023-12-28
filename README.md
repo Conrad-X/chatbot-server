@@ -23,6 +23,7 @@ You will need to configure AWS by adding three keys as enviroment variables.
 ## Running the Application
 uvicorn server:app --host=127.0.0.1 --port=${PORT:-PortNumber} --reload (--reload is optional for hot reload)
 
-
+## Running the Application (Heroku)
+web uvicorn server:app --host=0.0.0.0 --port=${PORT:-5000}
 
 # Happy Coding!
