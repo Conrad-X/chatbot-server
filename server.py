@@ -13,8 +13,9 @@ from typing import Annotated
 from pydub import AudioSegment
 import redis
 import uuid
-# from dotenv import load_dotenv
-# load_dotenv()
+
+from dotenv import load_dotenv
+load_dotenv()
 
 
 key = os.getenv("OPENAI_API_KEY")
@@ -71,7 +72,7 @@ class UserPromt(BaseModel):
 
 STATUS_COMPLETED = "completed"
 STATUS_FAILED = "failed"
-THREAD_ID = os.getenv("THREAD_ID")
+THREAD_ID = None
 
 REDIS_ENDPOINT = os.getenv("REDIS_ENDPOINT")
 REDIS_PORT = os.getenv("REDIS_PORT")
@@ -188,11 +189,12 @@ async def query_text(userPrompt: UserPromt):
 
             start = time.time()
             status = None
-            while status != STATUS_COMPLETED or status != STATUS_FAILED:
+            while status not in [STATUS_COMPLETED, STATUS_FAILED]:
                 status = retrieve_run_instances(THREAD_ID, run_id)
                 print(f"{status}\r", end="")
                 status = status  
             
+            print(f"The message status - {status}")
             if status == STATUS_COMPLETED: 
                 end = time.time()
                 print(f"Response Generation - {end - start}")
@@ -201,6 +203,7 @@ async def query_text(userPrompt: UserPromt):
                 response = messages[0].content[0].text.value
             elif status == STATUS_FAILED:
                 return { "content": "The message status failed. Please check your OpenAI account & Billing Status.", "statusCode": 500}
+        
         except Exception as e:
             return { "content": e, "statusCode": 500}
         
