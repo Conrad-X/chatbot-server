@@ -1,12 +1,8 @@
 from openai import OpenAI
 import time
 from services.aws.polly import *
-import os
 
-key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=key)
-
-async def process_stream_user_response_using_gpt(user_response):
+async def process_text_stream_with_polly(client, user_response):
     system_prompt_template = "Given a user query, offer concise information about the user's query. \nIf there is any uncertainty, simply respond with 'Sorry,' and avoid providing unrelated information. \nDo not request additional details or clarifications."
 
     start_time = time.time()
@@ -19,13 +15,16 @@ async def process_stream_user_response_using_gpt(user_response):
         ]
     )
     end_time = time.time()
+    
     print(f"OpenAI Generating Response: {end_time - start_time}s")
+
     count = 0
     text = ""
     for chunk in response:
         if chunk.choices[0].delta.content != None:
             text += chunk.choices[0].delta.content + " "
             count += 1
+            
             # print(chunk.choices[0].delta.content)
             if (text.__contains__('.')):
                 print(text)
