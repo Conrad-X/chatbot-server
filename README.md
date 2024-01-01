@@ -70,7 +70,14 @@ There are two forms of servers available under this repository
       <img src="https://github.com/Conrad-X/chatbot-server/assets/6302514/d51430bc-7d9e-4ca7-ba4a-0a01dd39c3b0" width="850" />
 
 ### Voice Based Response Server Endpoints
-The voice based endpoints are common between both ```legacy``` and main directory server files but are subject to changes in the future. The two tools `AWS Transcribe` and `AWS Polly` are used in these endpoints to transcribe the audio file send by the user, the generated text is used to generate a response throgh OpenAI with a `stream=True` parameter within the completion API. The stream parameters helps in generating stream based response which are received in forms of chunks and can be immediately processed by `Polly` to be spoken out to the user.
+The voice based endpoints are common between both ```legacy``` and main directory server files but are subject to changes in the future. The two tools `AWS Transcribe` and `AWS Polly` are used in these endpoints to transcribe the audio file send by the user, the generated text is used to generate a response throgh OpenAI with a `stream=True` parameter within the completion API. The stream parameters helps in generating stream based response which are received in forms of chunks and can be immediately processed by `Polly` to be spoken out to the user. Make sure you have the following keys present within your `.env` file
+ ```
+ AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXX
+ AWS_DEFAULT_REGION=XXXXXXXXXXXXXXX
+ AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXX
+ ```
+
+
 - `For Testing only` [/processText]() <br/>
   This endpoint can be used for testing purposes, you can provide a test prompt which will not require transcribing and just be sent to OpenAI completion API to generate the response and be spoken out by Polly.
 - `For Official Use` [/processAudioFile]() <br/>
