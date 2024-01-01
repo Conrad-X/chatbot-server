@@ -159,7 +159,7 @@ async def query_text(userPrompt: UserPrompt):
 # async def process_text(text: str):
 #     print(text)
 #     start_time = time.time()
-#     response = StreamingResponse(process_stream_user_response(client, text), media_type="application/octet-stream")
+#     response = StreamingResponse(process_text_stream_with_polly(client, text), media_type="application/octet-stream")
 #     end_time = time.time()
 #     print(f"Total Time: {end_time - start_time}s")
 #     return response
@@ -168,7 +168,7 @@ async def query_text(userPrompt: UserPrompt):
 # async def process_audio(file: Annotated[bytes, File()]):
 #     start_time = time.time()
 #     user_text = await transcribe(file)
-#     response = StreamingResponse(process_stream_user_response(client, user_text), media_type="application/octet-stream")
+#     response = StreamingResponse(process_text_stream_with_polly(client, user_text), media_type="application/octet-stream")
 #     end_time = time.time()
 #     print(f"Total Time: {end_time - start_time}s")
 #     return response
