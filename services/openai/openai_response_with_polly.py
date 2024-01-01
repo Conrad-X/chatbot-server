@@ -1,6 +1,5 @@
-from openai import OpenAI
 import time
-from services.aws.polly import *
+from services.aws.polly import polly_speak
 
 async def process_text_stream_with_polly(client, user_response):
     system_prompt_template = "Given a user query, offer concise information about the user's query. \nIf there is any uncertainty, simply respond with 'Sorry,' and avoid providing unrelated information. \nDo not request additional details or clarifications."

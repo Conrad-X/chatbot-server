@@ -12,9 +12,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from services.openai.assistant import run_thread, create_message, retrieve_run_instances, retrieve_message_list, create_thread, delete_threads
 from interface.userprompt import UserPrompt
 from services.redis.init import redis_init
-# from transcribe import *
-# from polly import *
-# from processing import *
+from services.aws.polly import polly_speak
+from services.aws.transcribe import transcribe
+from services.openai.openai_response_with_polly import process_text_stream_with_polly
 
 # Only for local testing, make sure you comment this for Heroku
 from dotenv import load_dotenv
@@ -155,23 +155,22 @@ async def query_text(userPrompt: UserPrompt):
     else:
         return {'statusCode': 500}
 
-# @app.post("/processText/",tags=["processText"])
-# async def process_text(text: str):
-#     print(text)
-#     start_time = time.time()
-#     response = StreamingResponse(process_text_stream_with_polly(client, text), media_type="application/octet-stream")
-#     end_time = time.time()
-#     print(f"Total Time: {end_time - start_time}s")
-#     return response
+@app.post("/processText/",tags=["processText"])
+async def process_text(text: str):
+    start_time = time.time()
+    response = StreamingResponse(process_text_stream_with_polly(client, text), media_type="application/octet-stream")
+    end_time = time.time()
+    print(f"Total Time Elaspsed: {end_time - start_time} sec")
+    return response
 
-# @app.post("/processAudioStream/", tags=["processAudioStream"])
-# async def process_audio(file: Annotated[bytes, File()]):
-#     start_time = time.time()
-#     user_text = await transcribe(file)
-#     response = StreamingResponse(process_text_stream_with_polly(client, user_text), media_type="application/octet-stream")
-#     end_time = time.time()
-#     print(f"Total Time: {end_time - start_time}s")
-#     return response
+@app.post("/processAudioStream/", tags=["processAudioStream"])
+async def process_audio(file: Annotated[bytes, File()]):
+    start_time = time.time()
+    user_text = await transcribe(file)
+    response = StreamingResponse(process_text_stream_with_polly(client, user_text), media_type="application/octet-stream")
+    end_time = time.time()
+    print(f"Total Time Elaspsed: {end_time - start_time} sec")
+    return response
 
 @app.get("/")
 def read_root():
