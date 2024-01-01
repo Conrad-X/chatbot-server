@@ -15,6 +15,7 @@ from services.redis.init import redis_init
 from services.aws.polly import polly_speak
 from services.aws.transcribe import transcribe
 from services.openai.openai_response_with_polly import process_text_stream_with_polly
+from services.utility.constants.meta_tags import tags_metadata
 
 # Only for local testing, make sure you comment this for Heroku
 from dotenv import load_dotenv
@@ -22,29 +23,6 @@ load_dotenv()
 
 key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=key)
-
-tags_metadata = [
-    {
-        "name": "queryAssistant",
-        "description": "Enables answering retrieval based queries",
-    },
-    {
-        "name": "processAudioStream",
-        "description": "Processes audio stream using AWS Stranscribe & OpenAI chat completion",
-        "externalDocs": {
-            "description": "Learn more about AWS Transcribe",
-            "url": "https://aws.amazon.com/transcribe/",
-        },
-    },
-    {
-        "name": "processText",
-        "description": "Processes plain text and respond with OpenAI chat completion",
-    },
-    {
-        "name": "clearCache",
-        "description": "Cleares existing cache keys"
-    }
-]
 
 # Enable All External Links
 # origins = ["*"]
@@ -163,7 +141,7 @@ async def process_text(text: str):
     print(f"Total Time Elaspsed: {end_time - start_time} sec")
     return response
 
-@app.post("/processAudioStream/", tags=["processAudioStream"])
+@app.post("/processAudioFile/", tags=["processAudioFile"])
 async def process_audio(file: Annotated[bytes, File()]):
     start_time = time.time()
     user_text = await transcribe(file)
