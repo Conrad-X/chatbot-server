@@ -47,24 +47,17 @@ There are two forms of servers available under this repository
       AWS_DEFAULT_REGION=XXXXXXXXXXXXXXX
       AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXX
 
-      REDIS_ENDPOINT=redis-14914.c323.us-east-1-2.ec2.cloud.redislabs.com
-      REDIS_PORT=14914
-      REDIS_PASSWORD=hZQFSoYF0Wgbkj4i3tmyBoR8XYPND8lU
+      REDIS_ENDPOINT=XXXXXXXXXXXXXXXX
+      REDIS_PORT=XXXXXXXXXXXXXXXXXXXX
+      REDIS_PASSWORD=XXXXXXXXXXXXXXXX
       ```
     - use ```pip install``` to install all dependencies.
     - use the following command to run the server
       ```
       uvicorn server:app --host=127.0.0.1 --port=${PORT:-PortNumber} --reload (--reload is optional for hot reload)
       ```
+    - The Redis instance 
     - Here's the interaction diagram of the workflow
    
       <img src="https://github.com/Conrad-X/chatbot-server/assets/6302514/d51430bc-7d9e-4ca7-ba4a-0a01dd39c3b0" width="850" />
-      
-      
 
-
-### Running the Application
-uvicorn server:app --host=127.0.0.1 --port=${PORT:-PortNumber} --reload (--reload is optional for hot reload)
-
-### Running the Application (Heroku)
-web uvicorn server:app --host=0.0.0.0 --port=${PORT:-5000}
