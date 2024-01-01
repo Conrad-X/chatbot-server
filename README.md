@@ -5,6 +5,12 @@ This project is based on `FastAPI` and represents a chatbot server comprising of
     ├── assets                  # Domain specific files provided to OpenAI Assistant
     ├── interface               # Utility classes used within the server code
     ├── legacy                  # Generalized version of the chat bot server
+    ├── services                # Services used within the server files
+        ├── aws
+        ├── openai
+        ├── redis
+        ├── utility
+            ├── constants
     ├── server.py               # Chatbot server file
     ├── requirements.txt        # List of dependency used for deploying 
     ├── Procfile                # Procfile (equired by Heroku only)
