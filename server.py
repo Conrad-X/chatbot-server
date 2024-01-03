@@ -1,5 +1,6 @@
 import time
 import os
+import redis
 
 from openai import OpenAI
 from typing import Annotated
