@@ -88,4 +88,23 @@ The voice based endpoints are common between both ```legacy``` and main director
    <img src="https://github.com/Conrad-X/chatbot-server/assets/6302514/f13474b3-8c8d-47f8-8e03-ec4983509168" width="750" />
 
 
+### Creating the Policy Assistant
+You can create your own assistant following the example within `services/openai/create_policy_assistant.py` which is a functional example for creating the assistant as per the example stated above. 
+If you want to run this code locally, make sure you have the following environment variables intact, you can observe an addition of three set of new `redis` variables which correspond to the files Db shown in the diagram above. The files db stores the filenames along with their `OpenAI` file Id
+```
+ASSISTANT_ID=XXXXXXXXXXXX
+OPENAI_API_KEY=XXXXXXXXXX
+THREAD_ID=XXXXXXXXXXXXXXX
 
+AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXX
+AWS_DEFAULT_REGION=XXXXXXXXXXXXXXX
+AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXX
+
+REDIS_ENDPOINT=XXXXXXXXXXXXXXXX
+REDIS_PORT=XXXXXXXXXXXXXXXXXXXX
+REDIS_PASSWORD=XXXXXXXXXXXXXXXX
+
+REDIS_ENDPOINT_FILES_DB=XXXXXXXXXXXXXXXXXXXXXXX
+REDIS_PORT_FILES_DB=XXXXXXXXXXXXXXXXXXXXXXXXXXX
+REDIS_PASSWORD_FILES_DB=XXXXXXXXXXXXXXXXXXXXXXX
+ ```
