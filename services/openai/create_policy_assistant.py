@@ -1,10 +1,11 @@
 import os
 import redis
-
 from openai import OpenAI
-from dotenv import load_dotenv
 
+# Only for local testing, make sure you comment this for Heroku
+from dotenv import load_dotenv
 load_dotenv()
+
 key = os.getenv("OPENAI_API_KEY")
 
 client = OpenAI(api_key=key)

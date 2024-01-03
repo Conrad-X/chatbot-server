@@ -2,8 +2,8 @@ import time
 import boto3
 
 # Only for local testing, make sure you comment this for Heroku
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 polly = boto3.client('polly')
 

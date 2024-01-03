@@ -19,8 +19,8 @@ from services.openai.openai_response_with_polly import process_text_stream_with_
 from services.utility.constants.meta_tags import tags_metadata
 
 # Only for local testing, make sure you comment this for Heroku
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=key)
