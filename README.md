@@ -11,7 +11,8 @@ This project is based on `FastAPI` and represents a chatbot server comprising of
         ├── redis
         ├── utility
             ├── constants
-    ├── server.py               # Chatbot server file
+    ├── server.py               # Chatbot main server file
+    ├── server-test.py          # Chatbot test server file
     ├── requirements.txt        # List of dependency used for deploying 
     ├── Procfile                # Procfile (equired by Heroku only)
     └── README.md
@@ -21,7 +22,7 @@ This project is based on `FastAPI` and represents a chatbot server comprising of
 
 ### Text Based Conversational Bot Server
 There are two forms of servers available under this repository
-- the first one is a basic one found under the `legacy` folder, this can be re-used for multiple scenarios depending on your application domain and is built upon OpenAI Assistants and depicts the workflow. Follow the steps below to make the legacy server work
+- The first one is a basic one found under the `legacy` folder, this can be re-used for multiple scenarios depending on your application domain and is built upon OpenAI Assistants and depicts the workflow. Follow the steps below to make the legacy server work
     - Create a `.env` file comprising of the folling details
       ```
       ASSISTANT_ID=XXXXXXXXXXXX
@@ -33,10 +34,9 @@ There are two forms of servers available under this repository
       AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXX
       ```
     - use ```pip install``` to install all dependencies. 
-    - Copy the `server-default.py` under the `legacy` folder to the main directory and run the following command. you can rename the file to 'server.py' if you prefer but make sure you make the appropriate changes to 
-      the command below  
+    - You can test by using using a `server-test.py` within the root directory by running the following command on your terminal given that the aforementioned keys are provided in the `.env` file
       ```
-      uvicorn server-default:app --host=127.0.0.1 --port=8000
+      uvicorn server-test:app --host=127.0.0.1 --port=8000
       ```
     - Once you're server is running you can visit the API doc file here `http://localhost:8000/docs` where you can test it
     - To understand how an assistant works, we recommend that you go through the official doc from OpenAI https://platform.openai.com/docs/assistants/how-it-works .
