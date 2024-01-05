@@ -36,7 +36,7 @@ There are two forms of servers available under this repository
     - Copy the `server-default.py` under the `legacy` folder to the main directory and run the following command. you can rename the file to 'server.py' if you prefer but make sure you make the appropriate changes to 
       the command below  
       ```
-      uvicorn server-default:app --host=0.0.0.0 --port=8000
+      uvicorn server-default:app --host=127.0.0.1 --port=8000
       ```
     - Once you're server is running you can visit the API doc file here `http://localhost:8000/docs` where you can test it
     - To understand how an assistant works, we recommend that you go through the official doc from OpenAI https://platform.openai.com/docs/assistants/how-it-works .
@@ -64,7 +64,7 @@ There are two forms of servers available under this repository
     - use `pip install` to install all dependencies.
     - use the following command to run the server
       ```
-      uvicorn server:app --host=127.0.0.1 --port=${PORT:-PortNumber} --reload (--reload is optional for hot reload)
+      uvicorn server:app --host=127.0.0.1 --port=8000 --reload (--reload is optional for hot reload)
       ```
     - The introduction of redis instace is the only difference between the aforementioned `legacy` server, in this use-case we need it to traclk and persist the thread Ids of the OpenAI assistants, which saves the context of the conversation. These thread Ids will be saved against a unique identifier which refers to an individual user, whenever we need to update the assistant we have to flush these thread Ids to impose a new context and hence new threads will be created in order to achieve that and will be saved. We also keep track of the file Ids for each uploaded file to the assistant, these come in handy whenver we are updating the OpenAI assistant. In order to achieve that the new file needs to be uploaded first on the OpenAI platform, the file Id against the new file would be replaced with the previous and store in the redis. The files not provided to the OpenAI will be deleted from the context, which means we have to keep track of all files that exist in a particular context while replacing old files with the new ones in the process and refreshing the threads along the way. 
     - Here's the interaction diagram of the workflow
