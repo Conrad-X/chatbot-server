@@ -81,14 +81,16 @@ The voice based endpoints are common between both ```legacy``` and main director
  ```
 
 - `For Official Use` [/processAudioFile]() <br/>
-   This endpoint follows the complete workflow as stated within the aforementioned paragraph and is depicted in the diagram below
+   This endpoint follows the complete workflow as stated within the aforementioned paragraph and is depicted in the diagram below. The voice chunks are uploaded as a file and is transcribed by `AWS Transcribe` and is served 
+   to `AWS Polly` which is streamed to the users.
+  
    <img src="https://github.com/Conrad-X/chatbot-server/assets/6302514/f13474b3-8c8d-47f8-8e03-ec4983509168" width="750" />
 
 - `For Official & Testing both` [/processText]() <br/>
-  This endpoint can be used for testing purposes, you can provide a test prompt which will not require transcribing and just be sent to OpenAI completion API to generate the response and be spoken out by Polly.
+  This endpoint can be used for testing purposes, you can provide a test prompt which will not require transcribing and just be sent to OpenAI completion API to generate the response and be spoken out by Polly. This is also 
+  being used in one of the iterations of the server where the transcription is done through [`PicoVoice`](https://picovoice.ai/docs/cheetah/) which improves the latency by a great deal.
   <img src="https://github.com/Conrad-X/chatbot-server/assets/6302514/ef1fdd69-407b-4775-a856-567b6a7bb080" width="750" />
   
-
 
 ### Creating the Policy Assistant
 You can create your own assistant following the example within `services/openai/create_policy_assistant.py` which is a functional example for creating the assistant as per the example stated above. 
