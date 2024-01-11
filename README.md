@@ -108,3 +108,10 @@ REDIS_ENDPOINT_FILES_DB=XXXXXXXXXXXXXXXXXXXXXXX
 REDIS_PORT_FILES_DB=XXXXXXXXXXXXXXXXXXXXXXXXXXX
 REDIS_PASSWORD_FILES_DB=XXXXXXXXXXXXXXXXXXXXXXX
  ```
+
+### Voice Based Conversational Bot Server
+
+<img src="https://github.com/Conrad-X/chatbot-server/assets/6302514/ed77527b-920f-49d5-876c-12515cbc109d" width="750" />
+<img src="https://github.com/Conrad-X/chatbot-server/assets/6302514/ef1fdd69-407b-4775-a856-567b6a7bb080" width="750" />
+
+
