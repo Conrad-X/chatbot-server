@@ -15,7 +15,7 @@ async def process_text_stream_with_polly(client, user_response):
     )
     end_time = time.time()
     
-    print(f"OpenAI Generating Response: {end_time - start_time}s")
+    print(f"OpenAI Generating Response: {end_time - start_time} sec")
 
     count = 0
     text = ""

@@ -1,6 +1,7 @@
 import time
 import os
 import redis
+from interface.usertext import UserText
 
 from openai import OpenAI
 from typing import Annotated
@@ -25,7 +26,7 @@ client = OpenAI(api_key=key)
 
 # Enable All External Links
 # origins = ["*"]
-origins = ["http://localhost","http://localhost:4200"]
+origins = ["http://localhost","http://localhost:4200", "http://localhost:3000"]
 
 app = FastAPI(openapi_tags=tags_metadata)
 
@@ -75,10 +76,10 @@ async def query_text(userPrompt: UserPrompt):
     
     return { "content": response, "run_id": run_id, "thread_id": THREAD_ID, "statusCode": 200 }
 
-@app.post("/processText/",tags=["processText"])
-async def process_text(text: str):
+@app.post("/processText/", tags=["processText"])
+async def process_text(userText: UserText):
     start_time = time.time()
-    response = StreamingResponse(process_text_stream_with_polly(client, text), media_type="application/octet-stream")
+    response = StreamingResponse(process_text_stream_with_polly(client, userText.text), media_type="application/octet-stream")
     end_time = time.time()
     print(f"Total Time Elaspsed: {end_time - start_time} sec")
     return response
