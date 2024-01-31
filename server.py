@@ -28,7 +28,7 @@ client = OpenAI(api_key=key)
 
 # Enable All External Links
 # origins = ["*"]
-origins = ["http://localhost", "http://localhost:3000", "http://localhost:4200","https://openai-chatbot-interface-9ab52001491e.herokuapp.com","https://voice-chat-bot-client-18687526ee9a.herokuapp.com"]
+origins = ["http://localhost", "http://localhost:3000", "http://localhost:4200","https://openai-chatbot-interface-9ab52001491e.herokuapp.com","https://voice-chat-bot-client-18687526ee9a.herokuapp.com", "https://test.simplisti.cc"]
 
 app = FastAPI(openapi_tags=tags_metadata)
 
