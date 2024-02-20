@@ -5,6 +5,10 @@ import boto3
 import requests
 import os
 
+# IMPORTANT PRE-REQUISITES
+# 1. Set `Timeout` In `General Configuration` of Lambda function to 5 min 0 sec
+# 2. Add `AmazonS3ReadOnlyAccess` policy to lamda's role in Permission section
+
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 ASSISTANT_ID = os.getenv("ASSISTANT_ID")
 CHAT_BOT_SERVER_URL = os.getenv("CHAT_BOT_SERVER_URL")
