@@ -1,3 +1,6 @@
+## Chatbot Server
+[![Coverage Status](https://coveralls.io/repos/github/Conrad-X/chatbot-server/badge.svg?branch=main)](https://coveralls.io/github/Conrad-X/chatbot-server?branch=main)
+
 ## About 
 This project is based on `FastAPI` and represents a chatbot server comprising of multiple API's for processing user input prompt in various text and audio formats. The responses is generated using openAI and multiple apporaches are accomodated to send the response back to the user. Here are a few details that will come in handy while navigating this repository.
 
