@@ -1,0 +1,7 @@
+[run]
+source = services
+
+[report]
+omit =
+    */tests/*
+    */site-packages/*

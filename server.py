@@ -18,13 +18,25 @@ from services.aws.polly import polly_speak
 from services.aws.transcribe import transcribe
 from services.openai.openai_response_with_polly import process_text_stream_with_polly
 from services.utility.constants.meta_tags import tags_metadata
+import sentry_sdk
 
 # Only for local testing, make sure you comment this for Heroku
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 
 key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=key)
+
+sentry_sdk.init(
+    dsn="https://7ad05bc294c3dc529d53452d14a46f5b@o4507509440970752.ingest.de.sentry.io/4507509452243024",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
 
 # Enable All External Links
 # origins = ["*"]
@@ -51,6 +63,10 @@ REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 ASSISTANT_ID = os.getenv("ASSISTANT_ID")
 ASSISTANT_VOICE = "shimmer" # alloy | onyx | nova | shimmer
 ASSISTANT_VOICE_MODEL = "tts-1" # tts-1 | tts-1-hd
+
+@app.get("/sentry-debug")
+async def trigger_error():
+    division_by_zero = 1 / 0
 
 @app.post("/clearCache/", tags=["clearCache"])
 async def clear_cache():
