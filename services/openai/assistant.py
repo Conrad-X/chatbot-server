@@ -8,12 +8,6 @@ def run_thread(client, thread_id, assistant_id):
     print(f"Assistant Response - {message_content.value}")
     return { "message": message_content.value, "run_id": run.id }
 
-    # run = client.beta.threads.runs.create(
-    #     thread_id=thread_id,
-    #     assistant_id=assistant_id,
-    # )
-    # return run.id
-
 def create_message(client, prompt, thread_id):
     message = client.beta.threads.messages.create(
         thread_id=thread_id,

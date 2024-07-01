@@ -1,6 +1,7 @@
 import time
 import os
 import redis
+import re
 from interface.usertext import UserText
 
 from openai import OpenAI
@@ -128,7 +129,8 @@ async def query_text(userPrompt: UserPrompt):
             print("Running Thread ...")
             run_instace = run_thread(client, THREAD_ID, ASSISTANT_ID)
             run_id = run_instace["run_id"]
-            message = run_instace["message"]
+            message = run_instace["message"].replace("**")
+            message = re.sub(r"【.*?】", "", message)
             print(f"Your new run id is - {run_id}")
             print("Run Complete!")
 
