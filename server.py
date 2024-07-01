@@ -21,8 +21,8 @@ from services.utility.constants.meta_tags import tags_metadata
 import sentry_sdk
 
 # Only for local testing, make sure you comment this for Heroku
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=key)
