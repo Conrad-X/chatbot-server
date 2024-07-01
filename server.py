@@ -124,30 +124,35 @@ async def query_text(userPrompt: UserPrompt):
         print("Creating message...")        
         try:
             create_message(client, userPrompt.prompt, THREAD_ID)
-            run_id = run_thread(client, THREAD_ID, ASSISTANT_ID)
-            print(f"Your new run id is - {run_id}")
-
             start = time.time()
-            status = None
-            while status not in [STATUS_COMPLETED, STATUS_FAILED]:
-                status = retrieve_run_instances(client, THREAD_ID, run_id)
-                print(f"{status}\r", end="")
-                status = status  
-            
+            print("Running Thread ...")
+            run_instace = run_thread(client, THREAD_ID, ASSISTANT_ID)
+            run_id = run_instace["run_id"]
+            message = run_instace["message"]
+            print(f"Your new run id is - {run_id}")
+            print("Run Complete!")
+
+            # status = None
+            # while status not in [STATUS_COMPLETED, STATUS_FAILED]:
+            #     status = retrieve_run_instances(client, THREAD_ID, run_id)
+            #     print(f"{status}\r", end="")
+            #     status = status
+                
+            status = retrieve_run_instances(client, THREAD_ID, run_id)
             print(f"The message status - {status}")
+
             if status == STATUS_COMPLETED: 
                 end = time.time()
                 print(f"Response Generation - {end - start}")
-                messages = retrieve_message_list(client, THREAD_ID)
-                # The top message at index 0 will always be from index after the run job is completed. 
-                response = messages[0].content[0].text.value
+                # messages = retrieve_message_list(client, THREAD_ID) 
+                # response = messages[0].content[0].text.value
             elif status == STATUS_FAILED:
                 return { "content": "The message status failed. Please check your OpenAI account & Billing Status.", "statusCode": 500}
         
         except Exception as e:
-            return { "content": e, "statusCode": 500}
+            return { "content": str(e), "statusCode": 500}
         
-        return { "content": response, "run_id": run_id, "thread_id": THREAD_ID, "statusCode": 200 }
+        return { "content": message, "run_id": run_id, "thread_id": THREAD_ID, "statusCode": 200 }
     else:
         return {'statusCode': 500}
 
