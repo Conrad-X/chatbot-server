@@ -9,3 +9,4 @@ amazon-transcribe
 python-multipart
 redis
 uuid
+sentry-sdk
